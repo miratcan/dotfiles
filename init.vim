@@ -1,85 +1,68 @@
 call plug#begin()
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-Plug '/usr/local/opt/fzf'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'wakatime/vim-wakatime'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'morhetz/gruvbox'
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
+Plug 'vim-airline/vim-airline'
+
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'oxfist/night-owl.nvim'
+Plug 'zefei/cake16'
+Plug 'junegunn/goyo.vim'
 call plug#end()
-
-let g:LanguageClient_serverCommands = {
-    \ 'python': ['pyls'],
-    \ 'javascript': ['javascript-typescript-stdio']
-    \ }
-
-nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
-
-set modelines=0
-
-set mouse=a
-set updatetime=1000
-set autowrite
-set autoread
-
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-set expandtab
-
-set hidden
-set visualbell
-set splitbelow
-set splitright
-
-set cursorline
-set number
-set norelativenumber
-
-set lazyredraw
-
-set ignorecase
-set smartcase
-set hlsearch
-set incsearch
-
-set showmatch
-set matchtime=3
-
-set nowrap
-set textwidth=79
-set colorcolumn=+1
-
-set completeopt=menuone,noinsert,noselect
-set shortmess+=c
-
-set showbreak=↪\ 
-set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
-
-set foldmethod=indent
-set foldlevel=99
-
-set backupskip=/tmp/*,/private/tmp/*"
-
-set wildmode=longest:full,full
-set wildignorecase
-set wildignore+=*.pyc
-
-set directory=~/.nvimtmp
-set undofile
-set undodir=~/.nvimtmp
-
-set termguicolors
-colorscheme elflord
-highlight clear VertSplit
 
 set syntax=on
 set colorcolumn=80
-set tabstop=2
 set nowrap
+set termguicolors
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set expandtab
 
-let g:ale_echo_msg_error_str = 'E'
-let g:ale_echo_msg_warning_str = 'W'
-let g:ale_echo_msg_format = '[%linter%] %s'
-let g:ale_completion_enabled = 1
+set showbreak=↪\
+set list
+set listchars=tab:\ \|,eol:↲,nbsp:␣,trail:•,extends:⟩,precedes:⟨
 
+set foldmethod=expr
+set foldexpr=lsp#ui#vim#folding#foldexpr()
+set foldtext=lsp#ui#vim#folding#foldtext()
+set nofoldenable
+
+colorscheme lunaperche
+
+" LSP Options ----------------------------------------------------------------
+
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+
+set foldmethod=expr
+      \ foldexpr=lsp#ui#vim#folding#foldexpr()
+      \ foldtext=lsp#ui#vim#folding#foldtext()
+
+
+" Start NERDTree and put the cursor back in the other window.
+autocmd VimEnter * NERDTree | wincmd p
+
+" CMD+t toggles NERDTree
+nnoremap <C-t> :NERDTreeToggle<CR>
+
+" Async Complete Options -----------------------------------------------------
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
