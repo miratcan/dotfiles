@@ -14,6 +14,6 @@ brew install fd ripgrep opera iterm2 docker docker-compose btop nvm pyenv pipx z
 # Install Kaydet
 pip3 install kaydet
 
-# Install NVChad
-rm -rf ~/.config/nvim
-git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1 && nvim
+# Install NeoVim Requirements
+pip3 install neovim
+npm i -g neovim
